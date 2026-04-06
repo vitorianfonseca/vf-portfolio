@@ -9,34 +9,36 @@ function MorphSphere() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { pointer } = useThree()
 
-  const geo = useMemo(() => new THREE.SphereGeometry(1.0, 72, 72), [])
+  const geo = useMemo(() => new THREE.SphereGeometry(1.0, 48, 48), [])
   const orig = useMemo(
     () => Float32Array.from(geo.attributes.position.array),
     [geo]
   )
+  const frameCount = useRef(0)
 
   const mat = useMemo(() => {
     const m = new THREE.MeshPhysicalMaterial({
       color:              new THREE.Color("#f5b8c8"),
       emissive:           new THREE.Color("#fb7185"),
       emissiveIntensity:  0.40,
-      roughness:          0.03,
-      metalness:          0.12,
-      transmission:       0.55,
-      thickness:          2.2,
-      ior:                2.3,
-      iridescence:        1.0,
-      iridescenceIOR:     2.2,
+      roughness:          0.05,
+      metalness:          0.10,
+      transmission:       0.45,
+      thickness:          2.0,
+      ior:                2.0,
       clearcoat:          1,
       clearcoatRoughness: 0,
       transparent:        true,
       opacity:            0.96,
     })
-    ;(m as any).iridescenceThicknessRange = [50, 650]
     return m
   }, [])
 
   useFrame((s) => {
+    frameCount.current++
+    // update morph every other frame to halve CPU cost
+    if (frameCount.current % 2 !== 0) return
+
     const t   = s.clock.elapsedTime
     const pos = geo.attributes.position
     const n   = pos.count
@@ -51,8 +53,7 @@ function MorphSphere() {
       const d =
         Math.sin(nx * 3.2 + t * 0.60 + px) * Math.sin(ny * 2.6 + t * 0.45) * 0.16 +
         Math.sin(nz * 4.5 + nx * 2.4 + t * 0.80) * 0.09 +
-        Math.sin(ny * 6.0 + nz * 3.0 + t * 0.35 + py) * 0.05 +
-        Math.sin(nx * 8.0 + ny * 5.0 + t * 1.10) * 0.025
+        Math.sin(ny * 6.0 + nz * 3.0 + t * 0.35 + py) * 0.05
 
       pos.setXYZ(i, nx * (1.0 + d), ny * (1.0 + d), nz * (1.0 + d))
     }
@@ -109,11 +110,11 @@ function Atmosphere() {
   return (
     <>
       <mesh ref={h1}>
-        <sphereGeometry args={[1.45, 32, 32]} />
+        <sphereGeometry args={[1.45, 20, 20]} />
         <meshBasicMaterial color="#fb7185" transparent opacity={0.055} side={THREE.BackSide} />
       </mesh>
       <mesh ref={h2}>
-        <sphereGeometry args={[1.80, 32, 32]} />
+        <sphereGeometry args={[1.80, 20, 20]} />
         <meshBasicMaterial color="#c4b5fd" transparent opacity={0.030} side={THREE.BackSide} />
       </mesh>
     </>
@@ -222,10 +223,12 @@ export function FloatingGem() {
   return (
     <Canvas
       camera={{ position: [0, 0, 4.8], fov: 42 }}
+      dpr={[1, 1.5]}
       gl={{
         alpha: true, antialias: true,
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 2.2,
+        powerPreference: "high-performance",
       }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
     >
