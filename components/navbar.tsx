@@ -33,12 +33,12 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
           vitória.fonseca
         </motion.button>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 sm:gap-8">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className="relative font-mono text-xs uppercase tracking-widest text-[#9A928A] hover:text-[#2D2A26] transition-colors"
+              className="relative font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#9A928A] hover:text-[#2D2A26] transition-colors"
               aria-label={`Navigate to ${item.label}`}
               aria-current={activeSection === item.id ? "page" : undefined}
             >
@@ -53,7 +53,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             </button>
           ))}
 
-          <div className="flex items-center gap-2 ml-4">
+          <div className="hidden sm:flex items-center gap-2 ml-2 sm:ml-4">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>

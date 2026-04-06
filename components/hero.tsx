@@ -9,7 +9,6 @@ const FloatingGem = dynamic(
   { ssr: false }
 )
 
-
 export function Hero() {
   return (
     <section className="relative min-h-[88vh] flex items-center px-6 md:px-12 pt-24 pb-16 overflow-hidden bg-[#FDF8F5]">
@@ -36,7 +35,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="font-serif italic text-5xl md:text-7xl lg:text-8xl font-bold text-[#2D2A26] tracking-tight whitespace-nowrap"
+                className="font-serif italic text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-[#2D2A26] tracking-tight"
               >
                 <motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
                   Vitoria
@@ -57,7 +56,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="font-serif text-3xl md:text-5xl lg:text-5xl italic text-[#9A928A] tracking-tight"
+                className="font-serif text-xl sm:text-2xl md:text-4xl lg:text-5xl italic text-[#9A928A] tracking-tight"
               >
                 building things that didn't exist before.
               </motion.p>
@@ -67,7 +66,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="max-w-lg font-sans text-lg text-[#9A928A] leading-relaxed"
+              className="max-w-lg font-sans text-base md:text-lg text-[#9A928A] leading-relaxed"
             >
               Self-taught Computer Engineering student at IPLeiria. I build products from scratch — from idea to deployment. Obsessive about the details.
             </motion.p>
