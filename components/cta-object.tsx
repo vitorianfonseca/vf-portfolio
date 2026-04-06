@@ -165,7 +165,8 @@ export function CtaObject() {
   return (
     <Canvas
       camera={{ position: [0, 0.4, 5.5], fov: 38 }}
-      gl={{ alpha: true, antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.5 }}
+      dpr={[1, 1.5]}
+      gl={{ alpha: true, antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.5, powerPreference: "high-performance" }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
     >
       <ambientLight intensity={0.15} />

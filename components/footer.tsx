@@ -1,7 +1,12 @@
 "use client"
 
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { motion } from "framer-motion"
+
+const CtaObject = dynamic(
+  () => import("./cta-object").then((m) => m.CtaObject),
+  { ssr: false }
+)
 
 export function Footer() {
   return (
@@ -10,40 +15,16 @@ export function Footer() {
       <section className="px-6 md:px-12 bg-[#2D2A26] relative overflow-hidden min-h-[500px] md:h-[600px]">
         <div className="absolute pointer-events-none rounded-full" style={{ width: 500, height: 500, background: "radial-gradient(circle, rgba(251,113,133,0.10) 0%, transparent 70%)", top: "-10%", right: "5%", filter: "blur(80px)" }} />
 
-        {/* Photo — right half, desktop only */}
+        {/* 3D object — right half, desktop only */}
         <motion.div
           className="hidden lg:block absolute inset-0 left-1/2"
           style={{ zIndex: 1 }}
-          initial={{ opacity: 0, x: 60 }}
+          initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
           viewport={{ once: false, amount: 0.2 }}
         >
-          {/* pulsing glow behind the figure */}
-          <motion.div
-            className="absolute"
-            style={{ bottom: "5%", left: "50%", translateX: "-50%", width: 340, height: 120, background: "radial-gradient(ellipse, rgba(251,113,133,0.18) 0%, transparent 70%)", filter: "blur(24px)", borderRadius: "50%" }}
-            animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.08, 1] }}
-            transition={{ duration: 3.5, ease: "easeInOut", repeat: Infinity }}
-          />
-
-          <motion.div
-            className="relative w-full h-full"
-            style={{ top: "-30px", right: "40px" }}
-            animate={{ scale: [1, 1.025, 1], rotate: [0, 0.6, 0, -0.6, 0] }}
-            transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
-          >
-            <Image
-              src="/me.png"
-              alt="Vitória Fonseca"
-              fill
-              className="object-contain object-center"
-              style={{
-                maskImage: "linear-gradient(to left, rgba(0,0,0,0.95) 35%, transparent 100%)",
-                filter: "drop-shadow(0 24px 48px rgba(0,0,0,0.55)) drop-shadow(0 8px 20px rgba(251,113,133,0.12))",
-              }}
-            />
-          </motion.div>
+          <CtaObject />
         </motion.div>
 
         <div className="max-w-6xl mx-auto relative h-full flex items-center" style={{ zIndex: 2 }}>
