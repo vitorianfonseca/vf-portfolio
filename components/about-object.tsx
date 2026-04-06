@@ -4,10 +4,10 @@ import { useRef, useMemo } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import * as THREE from "three"
 
-const TURNS  = 3.5
-const STEPS  = 42
-const RADIUS = 0.9
-const HEIGHT = 3.6
+const TURNS   = 3.5
+const STEPS   = 42
+const RADIUS  = 0.9
+const HEIGHT  = 3.6
 
 function HelixStrand({ offset, color, emissive }: { offset: number; color: string; emissive: string }) {
   const nodes = useMemo(() => {
@@ -23,17 +23,18 @@ function HelixStrand({ offset, color, emissive }: { offset: number; color: strin
   }, [offset])
 
   const curve   = useMemo(() => new THREE.CatmullRomCurve3(nodes), [nodes])
-  const tubeGeo = useMemo(() => new THREE.TubeGeometry(curve, 80, 0.022, 7, false), [curve])
+  const tubeGeo = useMemo(() => new THREE.TubeGeometry(curve, 120, 0.022, 8, false), [curve])
 
   return (
     <group>
       <mesh geometry={tubeGeo}>
-        <meshStandardMaterial
+        <meshPhysicalMaterial
           color={color}
           emissive={emissive}
-          emissiveIntensity={0.35}
-          roughness={0.15}
+          emissiveIntensity={0.4}
+          roughness={0.1}
           metalness={0.1}
+          transmission={0.4}
           transparent
           opacity={0.85}
         />
@@ -41,11 +42,11 @@ function HelixStrand({ offset, color, emissive }: { offset: number; color: strin
 
       {nodes.map((pos, i) => (
         <mesh key={i} position={pos}>
-          <sphereGeometry args={[0.055, 8, 8]} />
+          <sphereGeometry args={[0.055, 12, 12]} />
           <meshStandardMaterial
             color={color}
             emissive={emissive}
-            emissiveIntensity={i % 4 === 0 ? 2.5 : 1.0}
+            emissiveIntensity={i % 4 === 0 ? 3.0 : 1.2}
           />
         </mesh>
       ))}
@@ -142,10 +143,11 @@ export function AboutObject() {
       }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
     >
-      <ambientLight intensity={0.15} />
-      <pointLight position={[ 4,  4,  3]} color="#ffffff" intensity={50} />
-      <pointLight position={[-3, -2,  2]} color="#fb7185" intensity={35} />
-      <pointLight position={[ 2,  3, -2]} color="#c4b5fd" intensity={20} />
+      <ambientLight intensity={0.12} />
+      <pointLight position={[ 4,  4,  3]} color="#ffffff"  intensity={50} />
+      <pointLight position={[-3, -2,  2]} color="#fb7185"  intensity={35} />
+      <pointLight position={[ 0, -5,  3]} color="#fce7ef"  intensity={18} />
+      <pointLight position={[ 2,  3, -2]} color="#c4b5fd"  intensity={20} />
       <Scene />
     </Canvas>
   )
