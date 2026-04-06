@@ -222,7 +222,7 @@ function Scene() {
 export function FloatingGem() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 4.8], fov: 42 }}
+      camera={{ position: [-0.6, 0, 4.8], fov: 42 }}
       dpr={[1, 1.5]}
       gl={{
         alpha: true, antialias: true,
