@@ -4,12 +4,12 @@ import { useRef, useMemo } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import * as THREE from "three"
 
-const TURNS   = 3.5   // how many full rotations the helix makes
-const STEPS   = 42    // nodes per strand
-const RADIUS  = 0.9   // helix radius
-const HEIGHT  = 3.6   // total vertical span
+const TURNS  = 3.5
+const STEPS  = 42
+const RADIUS = 0.9
+const HEIGHT = 3.6
 
-function HelixStrand({ offset, color, emissive }: { offset: number; color: string; emissive: string }) {
+function HelixStrand({ offset, color }: { offset: number; color: string }) {
   const nodes = useMemo(() => {
     return Array.from({ length: STEPS }, (_, i) => {
       const t = i / (STEPS - 1)
@@ -22,36 +22,35 @@ function HelixStrand({ offset, color, emissive }: { offset: number; color: strin
     })
   }, [offset])
 
-  // Tube through the nodes
-  const curve = useMemo(() => new THREE.CatmullRomCurve3(nodes), [nodes])
-  const tubeGeo = useMemo(() => new THREE.TubeGeometry(curve, 120, 0.022, 8, false), [curve])
+  const curve   = useMemo(() => new THREE.CatmullRomCurve3(nodes), [nodes])
+  // Reduced segments: 120 → 60, radial: 8 → 6
+  const tubeGeo = useMemo(() => new THREE.TubeGeometry(curve, 60, 0.022, 6, false), [curve])
+
+  // Single instanced mesh for all nodes — 1 draw call instead of 42
+  const nodeGeo = useMemo(() => new THREE.SphereGeometry(0.055, 8, 8), [])
+  const nodeMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color, emissive: color, emissiveIntensity: 1.4,
+  }), [color])
+  const instancedRef = useRef<THREE.InstancedMesh>(null)
+  useMemo(() => {
+    const dummy = new THREE.Object3D()
+    nodes.forEach((pos, i) => {
+      dummy.position.copy(pos)
+      dummy.scale.setScalar(i % 4 === 0 ? 1.4 : 1.0)
+      dummy.updateMatrix()
+      instancedRef.current?.setMatrixAt(i, dummy.matrix)
+    })
+    if (instancedRef.current) instancedRef.current.instanceMatrix.needsUpdate = true
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes])
 
   return (
     <group>
       <mesh geometry={tubeGeo}>
-        <meshPhysicalMaterial
-          color={color}
-          emissive={emissive}
-          emissiveIntensity={0.4}
-          roughness={0.1}
-          metalness={0.1}
-          transmission={0.4}
-          transparent
-          opacity={0.85}
-        />
+        {/* Standard instead of Physical — avoids extra transmission render pass */}
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.25} roughness={0.2} metalness={0.1} transparent opacity={0.80} />
       </mesh>
-
-      {/* Glowing nodes */}
-      {nodes.map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <sphereGeometry args={[0.055, 12, 12]} />
-          <meshStandardMaterial
-            color={color}
-            emissive={emissive}
-            emissiveIntensity={i % 4 === 0 ? 3.0 : 1.2}
-          />
-        </mesh>
-      ))}
+      <instancedMesh ref={instancedRef} args={[nodeGeo, nodeMat, STEPS]} />
     </group>
   )
 }
@@ -60,19 +59,15 @@ function CrossLinks() {
   const geo = useMemo(() => {
     const positions: number[] = []
     const linkCount = 14
-
     for (let i = 0; i < linkCount; i++) {
       const t = i / (linkCount - 1)
       const angle = t * TURNS * Math.PI * 2
       const y = t * HEIGHT - HEIGHT / 2
-
-      // from strand A to strand B
       positions.push(
         Math.cos(angle) * RADIUS, y, Math.sin(angle) * RADIUS,
         Math.cos(angle + Math.PI) * RADIUS, y, Math.sin(angle + Math.PI) * RADIUS,
       )
     }
-
     const arr = new Float32Array(positions)
     const g = new THREE.BufferGeometry()
     g.setAttribute("position", new THREE.BufferAttribute(arr, 3))
@@ -128,8 +123,8 @@ function Scene() {
 
   return (
     <group ref={groupRef}>
-      <HelixStrand offset={0}        color="#fce7ef" emissive="#fb7185" />
-      <HelixStrand offset={Math.PI}  color="#e9d5ff" emissive="#c4b5fd" />
+      <HelixStrand offset={0}       color="#fce7ef" />
+      <HelixStrand offset={Math.PI} color="#e9d5ff" />
       <CrossLinks />
       <Dust />
     </group>
@@ -140,14 +135,19 @@ export function AboutObject() {
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 44 }}
-      gl={{ alpha: true, antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.4 }}
+      dpr={[1, 1.5]}
+      gl={{
+        alpha: true, antialias: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 1.4,
+        powerPreference: "high-performance",
+      }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
     >
-      <ambientLight intensity={0.12} />
-      <pointLight position={[ 4,  4,  3]} color="#ffffff"  intensity={50} />
-      <pointLight position={[-3, -2,  2]} color="#fb7185"  intensity={35} />
-      <pointLight position={[ 0, -5,  3]} color="#fce7ef"  intensity={18} />
-      <pointLight position={[ 2,  3, -2]} color="#c4b5fd"  intensity={20} />
+      <ambientLight intensity={0.15} />
+      <pointLight position={[ 4,  4,  3]} color="#ffffff" intensity={50} />
+      <pointLight position={[-3, -2,  2]} color="#fb7185" intensity={35} />
+      <pointLight position={[ 2,  3, -2]} color="#c4b5fd" intensity={20} />
       <Scene />
     </Canvas>
   )

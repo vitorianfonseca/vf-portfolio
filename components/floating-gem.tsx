@@ -16,23 +16,17 @@ function MorphSphere() {
   )
   const frameCount = useRef(0)
 
-  const mat = useMemo(() => {
-    const m = new THREE.MeshPhysicalMaterial({
-      color:              new THREE.Color("#f5b8c8"),
-      emissive:           new THREE.Color("#fb7185"),
-      emissiveIntensity:  0.40,
-      roughness:          0.05,
-      metalness:          0.10,
-      transmission:       0.45,
-      thickness:          2.0,
-      ior:                2.0,
-      clearcoat:          1,
-      clearcoatRoughness: 0,
-      transparent:        true,
-      opacity:            0.96,
-    })
-    return m
-  }, [])
+  const mat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color:              new THREE.Color("#f5b8c8"),
+    emissive:           new THREE.Color("#fb7185"),
+    emissiveIntensity:  0.35,
+    roughness:          0.05,
+    metalness:          0.15,
+    clearcoat:          1,
+    clearcoatRoughness: 0,
+    transparent:        true,
+    opacity:            0.95,
+  }), [])
 
   useFrame((s) => {
     frameCount.current++
@@ -142,10 +136,9 @@ function Core() {
       </mesh>
       <mesh ref={outer}>
         <icosahedronGeometry args={[0.36, 1]} />
-        <meshPhysicalMaterial
-          color="#fff0f4" emissive="#fb7185" emissiveIntensity={0.8}
-          roughness={0} metalness={0} transmission={0.6} thickness={0.5} ior={2.2}
-          clearcoat={1} clearcoatRoughness={0} transparent opacity={0.92}
+        <meshStandardMaterial
+          color="#fff0f4" emissive="#fb7185" emissiveIntensity={1.2}
+          roughness={0} metalness={0.1} transparent opacity={0.88}
         />
       </mesh>
       <mesh ref={inner}>
@@ -233,17 +226,10 @@ export function FloatingGem() {
       style={{ width: "100%", height: "100%", background: "transparent" }}
     >
       <color attach="background" args={["#FDF8F5"]} />
-      <ambientLight intensity={0.08} />
-      {/* Key — bright white top-right */}
-      <pointLight position={[ 5,  5,  3]} color="#ffffff"  intensity={200} />
-      {/* Rim — lavender back-left */}
-      <pointLight position={[-5,  1, -3]} color="#c4b5fd"  intensity={90}  />
-      {/* Fill — rose bottom */}
-      <pointLight position={[ 0, -5,  3]} color="#fb7185"  intensity={80}  />
-      {/* Accent — cream top-back */}
-      <pointLight position={[ 2,  4, -4]} color="#fce7ef"  intensity={65}  />
-      {/* Backlight rim — white */}
-      <pointLight position={[-3, -3, -3]} color="#ffffff"  intensity={55}  />
+      <ambientLight intensity={0.12} />
+      <pointLight position={[ 5,  5,  3]} color="#ffffff" intensity={180} />
+      <pointLight position={[-5,  1, -3]} color="#c4b5fd" intensity={80}  />
+      <pointLight position={[ 0, -5,  3]} color="#fb7185" intensity={70}  />
       <Scene />
     </Canvas>
   )

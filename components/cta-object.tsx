@@ -50,13 +50,12 @@ function ElegantRing({ radius, tube, tiltX, tiltZ, spinSpeed, particleSpeed, col
       <group rotation={[tiltX, 0, tiltZ]}>
         <mesh>
           <torusGeometry args={[radius, tube, 16, 160]} />
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             color={color}
             emissive={color}
             emissiveIntensity={0.4}
             roughness={0.05}
-            metalness={0}
-            transmission={0.3}
+            metalness={0.1}
             transparent
             opacity={opacity}
           />
@@ -104,17 +103,12 @@ function Core() {
       <group ref={ref}>
         <mesh>
           <icosahedronGeometry args={[0.22, 1]} />
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             color="#fce7ef"
             emissive="#fb7185"
-            emissiveIntensity={0.8}
+            emissiveIntensity={1.5}
             roughness={0}
-            metalness={0}
-            transmission={0.6}
-            thickness={0.3}
-            ior={2.3}
-            clearcoat={1}
-            clearcoatRoughness={0}
+            metalness={0.1}
             transparent
             opacity={0.92}
           />
