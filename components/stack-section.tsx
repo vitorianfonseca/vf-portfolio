@@ -116,7 +116,7 @@ export function StackSection() {
                 {cat.tools.map((tool, ti) => (
                   <span key={tool} className="flex items-baseline gap-1">
                     <motion.span
-                      className="font-serif text-xl md:text-2xl text-[#2D2A26]"
+                      className="font-sans text-lg md:text-xl text-[#2D2A26]"
                       initial={{ opacity: 0 }}
                       animate={isInView ? { opacity: hoveredRow === ci ? 1 : 0.7 } : { opacity: 0 }}
                       transition={{ duration: 0.2, delay: isInView ? 0.25 + ci * 0.1 + ti * 0.05 : 0 }}
