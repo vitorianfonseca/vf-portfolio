@@ -35,7 +35,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="font-serif italic text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-[#2D2A26] tracking-tight"
+                className="font-serif italic text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#2D2A26] tracking-tight whitespace-nowrap"
               >
                 <motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
                   Vitoria
