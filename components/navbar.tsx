@@ -46,7 +46,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
               {activeSection === item.id && (
                 <motion.div
                   layoutId="activeNav"
-                  className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-rose-400 to-pink-300"
+                  className="absolute -bottom-1 left-0 right-0 h-px bg-linear-to-r from-rose-400 to-pink-300"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}

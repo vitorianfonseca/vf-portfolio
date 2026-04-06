@@ -113,7 +113,7 @@ export function CodeToArt() {
             
             {/* Paint trail */}
             <div 
-              className="absolute inset-y-0 left-0 right-6 bg-gradient-to-r from-rose-400/15 via-pink-300/20 to-transparent"
+              className="absolute inset-y-0 left-0 right-6 bg-linear-to-r from-rose-400/15 via-pink-300/20 to-transparent"
               style={{ 
                 maskImage: "linear-gradient(to right, black 85%, transparent)",
                 WebkitMaskImage: "linear-gradient(to right, black 85%, transparent)"
@@ -184,9 +184,9 @@ export function CodeToArt() {
         transition={{ delay: 0.5 }}
         className="flex items-center justify-center gap-3 mt-3"
       >
-        <div className="h-px w-8 bg-gradient-to-r from-transparent to-rose-200/30" />
+        <div className="h-px w-8 bg-linear-to-r from-transparent to-rose-200/30" />
         <span className="text-[10px] font-mono text-[#9A928A]/50 tracking-widest uppercase">code transforms to art</span>
-        <div className="h-px w-8 bg-gradient-to-l from-transparent to-rose-200/30" />
+        <div className="h-px w-8 bg-linear-to-l from-transparent to-rose-200/30" />
       </motion.div>
     </div>
   )

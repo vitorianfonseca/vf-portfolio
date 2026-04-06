@@ -53,7 +53,7 @@ function TerminalCycler({ items }: { items: string[] }) {
   }, [text, deleting, index, items])
 
   return (
-    <div className="flex items-center gap-2 font-mono text-sm text-[#2D2A26]/80">
+    <div className="flex items-center gap-2 font-mono text-sm text-[#FDF8F5]/80">
       <span className="text-rose-400/70">{">"}</span>
       <span>{text}</span>
       <motion.span
@@ -153,13 +153,13 @@ export function StackSection() {
             />
             <span className="font-mono text-[10px] text-[#9A928A] uppercase tracking-widest">Currently into</span>
           </div>
-          <div className="bg-[#2D2A26] rounded-xl px-5 py-4 inline-flex items-center gap-3 min-w-[320px]">
+          <div className="bg-[#2D2A26] rounded-xl px-5 py-4 flex items-center gap-3 w-full max-w-lg">
             <div className="flex gap-1.5 shrink-0">
               <span className="w-2.5 h-2.5 rounded-full bg-[rgba(255,255,255,0.15)]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[rgba(255,255,255,0.15)]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[rgba(255,255,255,0.15)]" />
             </div>
-            {isInView && <TerminalCycler items={interests} />}
+            <TerminalCycler items={interests} />
           </div>
         </motion.div>
 
