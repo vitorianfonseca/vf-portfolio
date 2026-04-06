@@ -126,7 +126,7 @@ export function Hero() {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.5 }}
-            className="relative hidden lg:flex items-center justify-end"
+            className="relative hidden lg:flex items-center justify-center"
             style={{ height: "600px" }}
           >
             <FloatingGem />
