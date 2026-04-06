@@ -11,9 +11,9 @@ const CrystalScene = dynamic(
 
 
 // Typing animation component
-function TypingText({ texts, className }: { texts: string[]; className?: string }) {
+function TypingText({ texts, className, initialText }: { texts: string[]; className?: string; initialText?: string }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [displayText, setDisplayText] = useState("")
+  const [displayText, setDisplayText] = useState(initialText ?? "")
   const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
@@ -163,13 +163,14 @@ export function AboutSection() {
               </div>
               <div className="font-mono text-sm text-[#FDF8F5]/80">
                 <span className="text-rose-300/60">{">"}</span>{" "}
-                <TypingText 
+                <TypingText
                   texts={[
                     "building beautiful interfaces",
-                    "learning new technologies", 
+                    "learning new technologies",
                     "obsessing over details",
-                    "creating with passion"
-                  ]} 
+                    "creating with passion",
+                  ]}
+                  initialText="building beautiful interfaces"
                 />
               </div>
             </motion.div>
@@ -220,23 +221,6 @@ export function AboutSection() {
               </motion.p>
             </motion.div>
 
-            {/* CV Download */}
-            <motion.div
-              className="pt-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 1.4 }}
-            >
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[rgba(253,248,245,0.07)] bg-[rgba(253,248,245,0.02)] text-[#9A928A]/40 cursor-not-allowed select-none opacity-50">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                <span className="font-mono text-xs uppercase tracking-widest">Download CV</span>
-                <span className="font-mono text-[10px] ml-1">soon</span>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Right Column - Stats & Visual */}

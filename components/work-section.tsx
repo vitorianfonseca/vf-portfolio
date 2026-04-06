@@ -1,10 +1,7 @@
 "use client"
 
-import { motion, useInView, useMotionValue, useAnimationFrame } from "framer-motion"
-import { useRef, useState } from "react"
-
-const CARD_WIDTH = 380
-const GAP        = 20
+import { motion, useInView } from "framer-motion"
+import { useRef } from "react"
 
 const projects = [
   {
@@ -140,35 +137,20 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
   )
 }
 
-/* ─── carousel ──────────────────────────────── */
-function InfiniteCarousel() {
-  const [paused, setPaused] = useState(false)
-  const x = useMotionValue(0)
-  // repeat enough times to always fill the screen
-  const repeated = [...projects, ...projects, ...projects, ...projects]
-  const totalWidth = (CARD_WIDTH + GAP) * projects.length
-
-  useAnimationFrame((_, delta) => {
-    if (paused) return
-    const current = x.get()
-    const next = current - (42 * delta) / 1000
-    x.set(next <= -totalWidth ? 0 : next)
-  })
-
+/* ─── cards grid ────────────────────────────── */
+function ProjectsGrid({ isInView }: { isInView: boolean }) {
   return (
-    <div
-      className="relative overflow-hidden -mx-6 md:-mx-12"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <motion.div
-        className="flex py-6 px-6 md:px-12"
-        style={{ x, gap: GAP, width: "max-content" }}
-      >
-        {repeated.map((project, i) => (
-          <ProjectCard key={`${project.id}-${i}`} project={project} />
-        ))}
-      </motion.div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.map((project, i) => (
+        <motion.div
+          key={project.id}
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 + i * 0.12 }}
+        >
+          <ProjectCard project={project} />
+        </motion.div>
+      ))}
     </div>
   )
 }
@@ -233,24 +215,10 @@ export function WorkSection() {
         </motion.div>
       </div>
 
-      {/* Carousel */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.4 }}
-      >
-        <InfiniteCarousel />
-      </motion.div>
-
-      {/* Hint */}
-      <motion.p
-        className="text-center font-mono text-xs text-[#9A928A]/40 mt-4 max-w-6xl mx-auto"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        hover to pause
-      </motion.p>
+      {/* Cards */}
+      <div className="max-w-6xl mx-auto">
+        <ProjectsGrid isInView={isInView} />
+      </div>
     </section>
   )
 }
