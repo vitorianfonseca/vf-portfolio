@@ -102,7 +102,7 @@ export function CrystalScene() {
   return (
     <Canvas
       camera={{ position: [0, 0, 5.5], fov: 42 }}
-      gl={{ alpha: true, antialias: true, clearColor: [0, 0, 0, 0] }}
+      gl={{ alpha: true, antialias: true }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
       onCreated={({ gl }) => {
         gl.setClearColor(0x000000, 0)
