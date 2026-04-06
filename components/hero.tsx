@@ -13,26 +13,11 @@ const FloatingGem = dynamic(
 export function Hero() {
   return (
     <section className="relative min-h-[88vh] flex items-center px-6 md:px-12 pt-24 pb-16 overflow-hidden bg-[#FDF8F5]">
-      {/* Blobs */}
+      {/* Blobs — static, CSS only */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute w-32 h-32 md:w-48 md:h-48 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(251,113,133,0.15) 0%, rgba(248,200,220,0.08) 50%, transparent 70%)", top: "15%", right: "20%", filter: "blur(40px)" }}
-          animate={{ x: [0, 40, -60, 80, -30, 50, -40, 0], y: [0, -70, 40, -50, 80, -40, 60, 0] }}
-          transition={{ duration: 20, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute w-24 h-24 md:w-40 md:h-40 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(252,231,239,0.2) 0%, rgba(251,113,133,0.1) 50%, transparent 70%)", top: "40%", left: "8%", filter: "blur(35px)" }}
-          animate={{ x: [0, -50, 70, -40, 60, -80, 30, 0], y: [0, 60, -80, 50, -40, 70, -50, 0] }}
-          transition={{ duration: 25, repeat: Infinity, repeatType: "loop", ease: "easeInOut", delay: 2 }}
-        />
-        <motion.div
-          className="absolute w-28 h-28 md:w-44 md:h-44 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(248,200,220,0.18) 0%, rgba(252,231,239,0.1) 50%, transparent 70%)", bottom: "20%", right: "35%", filter: "blur(45px)" }}
-          animate={{ x: [0, 80, -50, 60, -70, 40, -60, 0], y: [0, -40, 70, -60, 40, -80, 50, 0] }}
-          transition={{ duration: 22, repeat: Infinity, repeatType: "loop", ease: "easeInOut", delay: 4 }}
-        />
+        <div className="absolute w-48 h-48 md:w-72 md:h-72 rounded-full" style={{ background: "radial-gradient(circle, rgba(251,113,133,0.12) 0%, transparent 70%)", top: "10%", right: "18%", filter: "blur(50px)" }} />
+        <div className="absolute w-40 h-40 md:w-56 md:h-56 rounded-full" style={{ background: "radial-gradient(circle, rgba(252,231,239,0.15) 0%, transparent 70%)", top: "45%", left: "5%", filter: "blur(40px)" }} />
+        <div className="absolute w-36 h-36 md:w-52 md:h-52 rounded-full" style={{ background: "radial-gradient(circle, rgba(248,200,220,0.12) 0%, transparent 70%)", bottom: "15%", right: "30%", filter: "blur(45px)" }} />
       </div>
 
       {/* Content */}

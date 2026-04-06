@@ -65,56 +65,9 @@ export function AboutSection() {
 
   return (
     <section className="py-24 px-6 md:px-12 bg-[#2D2A26] relative overflow-hidden">
-      {/* Small animated blobs - matching hero style */}
-      <motion.div
-        className="absolute w-28 h-28 rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(251,113,133,0.12) 0%, transparent 70%)",
-          top: "10%",
-          right: "15%",
-          filter: "blur(30px)",
-        }}
-        animate={{
-          x: [0, 40, -30, 50, -20, 0],
-          y: [0, -50, 30, -40, 60, 0],
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute w-24 h-24 rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(252,231,239,0.1) 0%, transparent 70%)",
-          bottom: "20%",
-          left: "10%",
-          filter: "blur(25px)",
-        }}
-        animate={{
-          x: [0, -40, 50, -30, 40, 0],
-          y: [0, 40, -60, 50, -30, 0],
-        }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-      />
-
-      {/* Floating particles */}
-      {[...Array(4)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-rose-300/20 rounded-full"
-          style={{
-            top: `${20 + i * 18}%`,
-            left: `${15 + i * 20}%`,
-          }}
-          animate={{
-            y: [0, -15, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 3 + i * 0.5,
-            repeat: Infinity,
-            delay: i * 0.3,
-          }}
-        />
-      ))}
+      {/* Static blobs — no JS animation */}
+      <div className="absolute w-40 h-40 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(251,113,133,0.1) 0%, transparent 70%)", top: "10%", right: "15%", filter: "blur(40px)" }} />
+      <div className="absolute w-32 h-32 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(252,231,239,0.08) 0%, transparent 70%)", bottom: "20%", left: "10%", filter: "blur(30px)" }} />
 
       <div className="max-w-6xl mx-auto relative" ref={ref}>
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-stretch">

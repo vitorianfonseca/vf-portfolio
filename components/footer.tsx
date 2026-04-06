@@ -7,17 +7,7 @@ export function Footer() {
     <>
       {/* CTA — dark */}
       <section className="px-6 md:px-12 py-24 bg-[#2D2A26] relative overflow-hidden">
-        <motion.div
-          className="absolute pointer-events-none rounded-full"
-          style={{
-            width: 400, height: 400,
-            background: "radial-gradient(circle, rgba(251,113,133,0.08) 0%, transparent 70%)",
-            top: "-20%", right: "5%",
-            filter: "blur(60px)",
-          }}
-          animate={{ x: [0, 30, -20, 0], y: [0, -20, 30, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <div className="absolute pointer-events-none rounded-full" style={{ width: 400, height: 400, background: "radial-gradient(circle, rgba(251,113,133,0.08) 0%, transparent 70%)", top: "-20%", right: "5%", filter: "blur(60px)" }} />
 
         <div className="max-w-6xl mx-auto relative">
           <motion.div

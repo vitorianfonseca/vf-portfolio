@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 
 const categories = [
   {
@@ -25,6 +25,45 @@ const interests = [
   "product design",
   "open-source",
 ]
+
+function TerminalCycler({ items }: { items: string[] }) {
+  const [index, setIndex] = useState(0)
+  const [text, setText] = useState("")
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const current = items[index]
+    const timeout = setTimeout(() => {
+      if (!deleting) {
+        if (text.length < current.length) {
+          setText(current.slice(0, text.length + 1))
+        } else {
+          setTimeout(() => setDeleting(true), 1800)
+        }
+      } else {
+        if (text.length > 0) {
+          setText(text.slice(0, -1))
+        } else {
+          setDeleting(false)
+          setIndex((prev) => (prev + 1) % items.length)
+        }
+      }
+    }, deleting ? 25 : 70)
+    return () => clearTimeout(timeout)
+  }, [text, deleting, index, items])
+
+  return (
+    <div className="flex items-center gap-2 font-mono text-sm text-[#2D2A26]/80">
+      <span className="text-rose-400/70">{">"}</span>
+      <span>{text}</span>
+      <motion.span
+        className="inline-block w-0.5 h-4 bg-rose-300 align-middle"
+        animate={{ opacity: [1, 0] }}
+        transition={{ duration: 0.5, repeat: Infinity }}
+      />
+    </div>
+  )
+}
 
 export function StackSection() {
   const ref = useRef(null)
@@ -99,14 +138,14 @@ export function StackSection() {
           ))}
         </div>
 
-        {/* Currently into */}
+        {/* Currently into — terminal style */}
         <motion.div
-          className="flex flex-wrap items-center gap-3 pt-8 mt-2 border-t border-[rgba(45,42,38,0.08)]"
+          className="pt-8 mt-2 border-t border-[rgba(45,42,38,0.08)]"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.55 }}
         >
-          <div className="flex items-center gap-2 shrink-0 mr-2">
+          <div className="flex items-center gap-2 mb-3">
             <motion.span
               className="w-1.5 h-1.5 rounded-full bg-rose-300 inline-block"
               animate={{ opacity: [0.4, 1, 0.4] }}
@@ -114,18 +153,14 @@ export function StackSection() {
             />
             <span className="font-mono text-[10px] text-[#9A928A] uppercase tracking-widest">Currently into</span>
           </div>
-          {interests.map((item, i) => (
-            <motion.span
-              key={item}
-              className="font-mono text-xs text-[#9A928A] px-3 py-1.5 rounded-full border border-[rgba(45,42,38,0.10)] bg-white cursor-default"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.3, delay: 0.6 + i * 0.06 }}
-              whileHover={{ borderColor: "rgba(251,113,133,0.45)", color: "#2D2A26", y: -2 }}
-            >
-              {item}
-            </motion.span>
-          ))}
+          <div className="bg-[#2D2A26] rounded-xl px-5 py-4 inline-flex items-center gap-3 min-w-[320px]">
+            <div className="flex gap-1.5 shrink-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-[rgba(255,255,255,0.15)]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[rgba(255,255,255,0.15)]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[rgba(255,255,255,0.15)]" />
+            </div>
+            {isInView && <TerminalCycler items={interests} />}
+          </div>
         </motion.div>
 
       </div>
