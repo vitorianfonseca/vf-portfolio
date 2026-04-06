@@ -9,7 +9,7 @@ const STEPS  = 42
 const RADIUS = 0.9
 const HEIGHT = 3.6
 
-function HelixStrand({ offset, color }: { offset: number; color: string }) {
+function HelixStrand({ offset, color, emissive }: { offset: number; color: string; emissive: string }) {
   const nodes = useMemo(() => {
     return Array.from({ length: STEPS }, (_, i) => {
       const t = i / (STEPS - 1)
@@ -23,34 +23,32 @@ function HelixStrand({ offset, color }: { offset: number; color: string }) {
   }, [offset])
 
   const curve   = useMemo(() => new THREE.CatmullRomCurve3(nodes), [nodes])
-  // Reduced segments: 120 → 60, radial: 8 → 6
-  const tubeGeo = useMemo(() => new THREE.TubeGeometry(curve, 60, 0.022, 6, false), [curve])
-
-  // Single instanced mesh for all nodes — 1 draw call instead of 42
-  const nodeGeo = useMemo(() => new THREE.SphereGeometry(0.055, 8, 8), [])
-  const nodeMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color, emissive: color, emissiveIntensity: 1.4,
-  }), [color])
-  const instancedRef = useRef<THREE.InstancedMesh>(null)
-  useMemo(() => {
-    const dummy = new THREE.Object3D()
-    nodes.forEach((pos, i) => {
-      dummy.position.copy(pos)
-      dummy.scale.setScalar(i % 4 === 0 ? 1.4 : 1.0)
-      dummy.updateMatrix()
-      instancedRef.current?.setMatrixAt(i, dummy.matrix)
-    })
-    if (instancedRef.current) instancedRef.current.instanceMatrix.needsUpdate = true
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes])
+  const tubeGeo = useMemo(() => new THREE.TubeGeometry(curve, 80, 0.022, 7, false), [curve])
 
   return (
     <group>
       <mesh geometry={tubeGeo}>
-        {/* Standard instead of Physical — avoids extra transmission render pass */}
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.25} roughness={0.2} metalness={0.1} transparent opacity={0.80} />
+        <meshStandardMaterial
+          color={color}
+          emissive={emissive}
+          emissiveIntensity={0.35}
+          roughness={0.15}
+          metalness={0.1}
+          transparent
+          opacity={0.85}
+        />
       </mesh>
-      <instancedMesh ref={instancedRef} args={[nodeGeo, nodeMat, STEPS]} />
+
+      {nodes.map((pos, i) => (
+        <mesh key={i} position={pos}>
+          <sphereGeometry args={[0.055, 8, 8]} />
+          <meshStandardMaterial
+            color={color}
+            emissive={emissive}
+            emissiveIntensity={i % 4 === 0 ? 2.5 : 1.0}
+          />
+        </mesh>
+      ))}
     </group>
   )
 }
@@ -123,8 +121,8 @@ function Scene() {
 
   return (
     <group ref={groupRef}>
-      <HelixStrand offset={0}       color="#fce7ef" />
-      <HelixStrand offset={Math.PI} color="#e9d5ff" />
+      <HelixStrand offset={0}       color="#fce7ef" emissive="#fb7185" />
+      <HelixStrand offset={Math.PI} color="#e9d5ff" emissive="#c4b5fd" />
       <CrossLinks />
       <Dust />
     </group>
