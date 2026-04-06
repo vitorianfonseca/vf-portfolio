@@ -4,8 +4,8 @@ import { motion, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 
-const CrystalScene = dynamic(
-  () => import("./crystal-scene").then((m) => m.CrystalScene),
+const AboutObject = dynamic(
+  () => import("./about-object").then((m) => m.AboutObject),
   { ssr: false }
 )
 
@@ -191,7 +191,7 @@ export function AboutSection() {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {canRender3D && <CrystalScene />}
+              {canRender3D && <AboutObject />}
             </motion.div>
 
             {/* Status card */}

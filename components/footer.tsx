@@ -1,6 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
+
+const CtaObject = dynamic(
+  () => import("./cta-object").then((m) => m.CtaObject),
+  { ssr: false }
+)
 
 export function Footer() {
   return (
@@ -10,37 +16,51 @@ export function Footer() {
         <div className="absolute pointer-events-none rounded-full" style={{ width: 400, height: 400, background: "radial-gradient(circle, rgba(251,113,133,0.08) 0%, transparent 70%)", top: "-20%", right: "5%", filter: "blur(60px)" }} />
 
         <div className="max-w-6xl mx-auto relative">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true }}
-          >
-            <span className="font-mono text-xs text-rose-300/60 uppercase tracking-widest">
-              Contact
-            </span>
-
-            <h2 className="font-serif text-5xl md:text-7xl font-bold text-[#FDF8F5] mt-4 leading-tight">
-              Let&apos;s build<br />
-              <em className="not-italic text-rose-300/90">something.</em>
-            </h2>
-
-            <div className="h-1 w-24 bg-linear-to-r from-rose-300/60 to-pink-200/30 mt-6 rounded-full" />
-
-            <p className="font-sans text-[#9A928A] mt-8 max-w-sm leading-relaxed text-sm">
-              Open to internships, freelance, and interesting collabs.
-              If you have an idea, I want to hear it.
-            </p>
-
-            <motion.a
-              href="mailto:hello@vitoriafonseca.dev"
-              className="inline-flex items-center gap-3 mt-10 font-mono text-sm text-[#FDF8F5]/80 border border-[rgba(253,248,245,0.15)] px-6 py-3 rounded-full hover:border-rose-300/60 hover:text-rose-300 transition-colors duration-300"
-              whileHover={{ x: 4 }}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true }}
             >
-              hello@vitoriafonseca.dev
-              <span className="text-rose-300/60">↗</span>
-            </motion.a>
-          </motion.div>
+              <span className="font-mono text-xs text-rose-300/60 uppercase tracking-widest">
+                Contact
+              </span>
+
+              <h2 className="font-serif text-5xl md:text-7xl font-bold text-[#FDF8F5] mt-4 leading-tight">
+                Let&apos;s build<br />
+                <em className="not-italic text-rose-300/90">something.</em>
+              </h2>
+
+              <div className="h-1 w-24 bg-linear-to-r from-rose-300/60 to-pink-200/30 mt-6 rounded-full" />
+
+              <p className="font-sans text-[#9A928A] mt-8 max-w-sm leading-relaxed text-sm">
+                Open to internships, freelance, and interesting collabs.
+                If you have an idea, I want to hear it.
+              </p>
+
+              <motion.a
+                href="mailto:hello@vitoriafonseca.dev"
+                className="inline-flex items-center gap-3 mt-10 font-mono text-sm text-[#FDF8F5]/80 border border-[rgba(253,248,245,0.15)] px-6 py-3 rounded-full hover:border-rose-300/60 hover:text-rose-300 transition-colors duration-300"
+                whileHover={{ x: 4 }}
+              >
+                hello@vitoriafonseca.dev
+                <span className="text-rose-300/60">↗</span>
+              </motion.a>
+            </motion.div>
+
+            {/* FloatingGem — right column, desktop only */}
+            <motion.div
+              className="hidden lg:block"
+              style={{ height: "480px" }}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <CtaObject />
+            </motion.div>
+          </div>
         </div>
       </section>
 
