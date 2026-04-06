@@ -36,7 +36,6 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
     <motion.article
       className="relative shrink-0 flex flex-col rounded-2xl overflow-hidden"
       style={{
-        width: CARD_WIDTH,
         boxShadow: "0 2px 12px rgba(45,42,38,0.08), 0 0 0 1px rgba(45,42,38,0.06)",
       }}
       whileHover={{ y: -8, boxShadow: "0 24px 48px -8px rgba(251,113,133,0.22), 0 0 0 1px rgba(45,42,38,0.06)" }}
