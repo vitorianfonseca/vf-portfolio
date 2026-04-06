@@ -27,11 +27,15 @@ const interests = [
 ]
 
 function TerminalCycler({ items }: { items: string[] }) {
+  const [mounted, setMounted] = useState(false)
   const [index, setIndex] = useState(0)
   const [text, setText] = useState("")
   const [deleting, setDeleting] = useState(false)
 
+  useEffect(() => { setMounted(true) }, [])
+
   useEffect(() => {
+    if (!mounted) return
     const current = items[index]
     const timeout = setTimeout(() => {
       if (!deleting) {
@@ -50,7 +54,7 @@ function TerminalCycler({ items }: { items: string[] }) {
       }
     }, deleting ? 25 : 70)
     return () => clearTimeout(timeout)
-  }, [text, deleting, index, items])
+  }, [mounted, text, deleting, index, items])
 
   return (
     <div className="flex items-center gap-2 font-mono text-sm text-[#FDF8F5]/80">
