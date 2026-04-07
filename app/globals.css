@@ -125,6 +125,16 @@
 }
 
 
+/* Carousel Animation */
+@keyframes carousel-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(var(--carousel-dist)); }
+}
+
+.animate-carousel {
+  animation: carousel-scroll 22s linear infinite;
+}
+
 /* Marquee Animation */
 @keyframes marquee {
   0% {

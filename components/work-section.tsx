@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 type ProjectStatus = "live" | "wip" | "soon"
 
@@ -185,20 +185,38 @@ const LOOP_DISTANCE = projects.length * (CARD_WIDTH + CARD_GAP)
 
 function ProjectsCarousel() {
   const looped = [...projects, ...projects]
+  const [paused, setPaused] = useState(false)
 
   return (
-    <div className="overflow-hidden w-full">
-      <motion.div
-        className="flex"
-        style={{ gap: CARD_GAP, width: "max-content" }}
-        animate={{ x: [0, -LOOP_DISTANCE] }}
-        transition={{ duration: 22, ease: "linear", repeat: Infinity }}
+    <div className="relative overflow-hidden w-full group/carousel">
+      <div
+        className="flex animate-carousel"
+        style={{
+          gap: CARD_GAP,
+          width: "max-content",
+          animationPlayState: paused ? "paused" : "running",
+          ["--carousel-dist" as string]: `-${LOOP_DISTANCE}px`,
+        }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
       >
         {looped.map((project, i) => (
           <div key={`${project.id}-${i}`} style={{ width: 400, flexShrink: 0 }}>
             <ProjectCard project={project} index={i} />
           </div>
         ))}
+      </div>
+
+      {/* Pause hint */}
+      <motion.div
+        className="absolute bottom-3 right-6 flex items-center gap-1.5 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: paused ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <span className="w-1 h-3 rounded-full bg-[#9A928A]/50 inline-block" />
+        <span className="w-1 h-3 rounded-full bg-[#9A928A]/50 inline-block" />
+        <span className="font-mono text-[10px] text-[#9A928A]/60 uppercase tracking-widest ml-1">paused</span>
       </motion.div>
     </div>
   )
