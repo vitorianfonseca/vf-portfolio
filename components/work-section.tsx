@@ -64,20 +64,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isSoon = project.status === "soon"
 
   return (
-    <motion.article
-      className="relative shrink-0 flex flex-col rounded-2xl overflow-hidden w-full"
+    <article
+      className={`relative shrink-0 flex flex-col rounded-2xl overflow-hidden w-full transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${!isSoon ? "hover:-translate-y-2 hover:shadow-[0_24px_48px_-8px_rgba(251,113,133,0.22),0_0_0_1px_rgba(45,42,38,0.06)]" : ""}`}
       style={{
         boxShadow: isSoon
           ? "0 2px 12px rgba(45,42,38,0.05), 0 0 0 1px rgba(45,42,38,0.06)"
           : "0 2px 12px rgba(45,42,38,0.08), 0 0 0 1px rgba(45,42,38,0.06)",
         opacity: isSoon ? 0.7 : 1,
       }}
-      whileHover={
-        isSoon
-          ? {}
-          : { y: -8, boxShadow: "0 24px 48px -8px rgba(251,113,133,0.22), 0 0 0 1px rgba(45,42,38,0.06)" }
-      }
-      transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
     >
       {/* ── dark header ─────────────────────── */}
       <div className="relative bg-[#2D2A26] px-7 pt-7 pb-6 overflow-hidden">
@@ -179,7 +173,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </>
         )}
       </div>
-    </motion.article>
+    </article>
   )
 }
 
