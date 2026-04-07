@@ -196,11 +196,14 @@ function ProjectsCarousel() {
           width: "max-content",
           animationPlayState: paused ? "paused" : "running",
         }}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
       >
         {looped.map((project, i) => (
-          <div key={`${project.id}-${i}`} style={{ width: 400, flexShrink: 0 }}>
+          <div
+            key={`${project.id}-${i}`}
+            style={{ width: 400, flexShrink: 0 }}
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+          >
             <ProjectCard project={project} index={i} />
           </div>
         ))}
