@@ -125,10 +125,10 @@
 }
 
 
-/* Carousel Animation */
+/* Carousel Animation — 4 cards × (400 + 24) = 1696px */
 @keyframes carousel-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(var(--carousel-dist)); }
+  100% { transform: translateX(-1696px); }
 }
 
 .animate-carousel {

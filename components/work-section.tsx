@@ -195,7 +195,6 @@ function ProjectsCarousel() {
           gap: CARD_GAP,
           width: "max-content",
           animationPlayState: paused ? "paused" : "running",
-          ["--carousel-dist" as string]: `-${LOOP_DISTANCE}px`,
         }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
